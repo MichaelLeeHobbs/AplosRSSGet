@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" strict="true"
+               package="com.mlh">
+    <Appenders>
+        <File name="file" fileName="logs/aplos_rss.log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        </File>
+        <File name="bad_feeds" fileName="logs/aplos_rss_bad_feeds.log"/>
+        <File name="errors" fileName="logs/aplos_rss_trace.log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        </File>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        </Console>
+        <Socket name="LF5_SOCKET" host="localhost" port="4454" protocol="TCP" reconnectionDelay="5000"/>
+    </Appenders>
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="file" level="ERROR"/>
+            <AppenderRef ref="errors" level="TRACE"/>
+            <AppenderRef ref="LF5_SOCKET" level="TRACE"/>
+        </Root>
+        <logger name="com.aplos.rssget.services.SqlDAO" level="TRACE" additivity="false">
+            <AppenderRef ref="file" level="ERROR"/>
+            <AppenderRef ref="errors" level="TRACE"/>
+            <AppenderRef ref="LF5_SOCKET" level="TRACE"/>
+        </logger>
+        <logger name="com.aplos.utils.Validators" level="TRACE" additivity="false">
+            <AppenderRef ref="file" level="ERROR"/>
+            <AppenderRef ref="errors" level="TRACE"/>
+            <AppenderRef ref="LF5_SOCKET" level="TRACE"/>
+        </logger>
+        <logger name="com.aplos.rssget.services.RssDAO" level="TRACE" additivity="false">
+            <AppenderRef ref="bad_feeds" level="FATAL"/>
+            <AppenderRef ref="file" level="ERROR"/>
+            <AppenderRef ref="errors" level="TRACE"/>
+            <AppenderRef ref="LF5_SOCKET" level="TRACE"/>
+        </logger>
+        <logger name="bad.feeds" level="ERROR" additivity="false">
+            <AppenderRef ref="bad_feeds" level="ERROR"/>
+        </logger>
+
+    </Loggers>
+</Configuration>
